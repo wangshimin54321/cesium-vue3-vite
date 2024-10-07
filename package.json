@@ -1,0 +1,35 @@
+{
+  "name": "cesium-dialog",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "clear": "rimraf node_modules"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "@vue/shared": "^3.3.4",
+    "cesium": "^1.105.2",
+    "element-plus": "^2.3.6",
+    "vue": "^3.2.47",
+    "@turf/turf": "^7.1.0",
+    "turf": "^3.0.14"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "axios": "^1.7.7",
+    "cesium-heatmap-es6": "^0.8.0",
+    "heatmap.js": "^2.0.5",
+    "sass": "^1.62.1",
+    "type-fest": "^3.11.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2",
+    "vite-plugin-externals": "^0.6.2",
+    "vue-router": "^4.4.5",
+    "vue-tsc": "^1.4.2",
+    "vuex": "^4.1.0"
+  }
+}
