@@ -4,7 +4,7 @@ import * as Cesium from "cesium";
 import {clickInit} from "../map/clickPoint"
 import {createPopup} from "@/components/dialog";
 import Content from "@/components/Content1.vue"
-import geoJson from "../assets/taizhouBoundary.json"
+import geoJson from "../assets/beijingBoundary.json"
 import heatMap from "../assets/heatMap.json"
 // import { getGeojson } from "../../public/api/api.js"
 import { CesiumHeatmap } from "../assets/cesiumHeatMap.js" 
@@ -16,8 +16,7 @@ Cesium.Ion.defaultAccessToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3
 let viewer:Cesium.Viewer|null =null;
 const containerRef =ref();
 const pipelineEntity = ref(null);
-const pipePosition = ref(Cesium.Cartesian3.fromDegrees(119.923116, 32.455778));
-//119.923116, 32.455778   118.30594,  32.39439
+const pipePosition = ref(Cesium.Cartesian3.fromDegrees(116.55, 40.26));
 function loadIcon(){
     const entity = (viewer as Cesium.Viewer).entities.add({
         name:"test",
@@ -45,7 +44,10 @@ const line = () => {
       positions: Cesium.Cartesian3.fromDegreesArray([
         118.30594,  32.39439
         -115.0, 42.0,
-        119.923116, 32.455778
+        119.923116, 32.455778,
+        116.20, 39.56,
+        115.25, 39.26,
+        116.55, 40.26
         // -115.0, 44.0,
         // 118.30594, 32.39439
       ]), // new Cesium.CallbackProperty(() => [[-115.0, 44.0],[118.30594, 32.39439]], false),
@@ -92,7 +94,9 @@ const line = () => {
 }
 const createLine = (scene:any) => {
     // 后端返回的经纬度数据
-    const positions = [
+    const positions = [ //115.25, 39.26
+        { lon: 116.55, lat: 40.26 },
+        { lon: 116.20, lat: 39.56 },
         { lon: 119.923116, lat: 32.255778 },
         { lon: 119.923116, lat: 32.355778 },
     { lon: 119.923116, lat: 32.455778 },
@@ -100,6 +104,8 @@ const createLine = (scene:any) => {
     { lon: 119.923116, lat: 31.39439 },
     ];
     const positions1 = [
+        { lon: 116.05, lat: 40.26 },
+        { lon: 116.20, lat: 39.56 },
         { lon: 119.823116, lat: 32.255778 },
         { lon: 119.923116, lat: 32.355778 },
     { lon: 119.723116, lat: 32.455778 },
@@ -210,6 +216,24 @@ const createLine = (scene:any) => {
     (viewer as Cesium.Viewer).entities.add(area);
     (viewer as Cesium.Viewer).entities.add(line);
     (viewer as Cesium.Viewer).flyTo(line, { duration: 3 });
+    let long = 116.55; // 116.55, 40.26
+    let lat = 40.26;
+    let height = 50;
+    
+    (viewer as Cesium.Viewer).entities.add({
+        name: "动态线",
+        polyline: {
+            positions: new Cesium.CallbackProperty(() => {
+                // 每次更新下一个点的位置
+                long += 0.005;
+                lat += 0.005;
+                height += 0.005;
+                return Cesium.Cartesian3.fromDegreesArrayHeights([116.55,40.26,50,long,lat,height])
+            }, false),
+            width: 5,
+            material: Cesium.Color.GRAY,
+        },
+    });
 };
 const drawLine = () => {
     const scene = (viewer as Cesium.Viewer).scene;
